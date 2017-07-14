@@ -30,11 +30,16 @@ for f in listdir(photos_dir):
     t_path = join(thumbs_dir, f)
     o_path = join(opt_dir, f)
     if isfile(p_path):
-
+        source = tinify.from_file(p_path)
         if not isfile(t_path):
-            ResizeImage(p_path, t_path)
+            # ResizeImage(p_path, t_path)
+            resized = source.resize(
+                method="fit",
+                width=85,
+                height=85
+            )
+            resized.to_file(t_path)
         if not isfile(o_path):
-            source = tinify.from_file(p_path)
             source.to_file(o_path)
         jsonstr+='{"thumb":"thumbs/' + f + '","url":"optmized/' + f + '","title":""},'
 jsonstr = jsonstr[:-1]
